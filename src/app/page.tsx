@@ -16,7 +16,9 @@ export default function Home() {
       </div>
       <div className="col-span-2">
        <Header></Header>
-       <h1 className="text-3xl font-bold text-center">Welcome to Librium! Login or Signup to get Started!</h1>
+       <div className="leading-none">
+        <h1 className="text-3xl font-bold text-center font-serif m-20 ">Welcome to Librium! Login or Signup to get Started!</h1>
+       </div>
       </div>
     </div>
   );
