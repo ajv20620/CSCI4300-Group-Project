@@ -9,14 +9,15 @@ type BookProps = {
 
 export default function Book({ book }: BookProps) {
     return (
-      <div className="shadow rounded bg-blue-100 w-300px h-300px" >
-        <h1>-{book.title}-</h1>
+      <div className="shadow rounded-xl bg-blue-500 p-3 flex flex-col items-center flex-wrap w-[200px]" >
+        <h1 className="text-center text-black font-serif">-{book.title}-</h1>
         <Image
           src={book.imageUrl}
           alt={book.title}
           width={150}
           height={150}
           priority
+          className=''
         />
       </div>
     );
