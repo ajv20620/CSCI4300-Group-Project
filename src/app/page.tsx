@@ -1,8 +1,21 @@
 import Image from "next/image";
 import Header from "./components/Header"
 
+type HeaderData = {
+  firstLink: string;
+  firstLinkName: string;
+  secondLink: string;
+  secondLinkName: string;
+}
 
 export default function Home() {
+  const homeHeader = {
+    firstLink: "/login",
+    firstLinkName: "Login",
+    secondLink: "/signup",
+    secondLinkName: "Signup",
+  };
+  
   return (
     <div className="grid grid-cols-3 h-screen">
       <div className="col-span-1">
@@ -15,7 +28,7 @@ export default function Home() {
        />
       </div>
       <div className="col-span-2">
-       <Header></Header>
+       <Header header={homeHeader}></Header>
        <div className="leading-none">
         <h1 className="text-3xl font-bold text-center font-serif m-20 ">Welcome to Librium! Login or Signup to get Started!</h1>
        </div>
