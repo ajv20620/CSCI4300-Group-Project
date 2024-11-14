@@ -1,16 +1,53 @@
 "use client";
 import Image from "next/image";
 import Header from "../components/Header";
+import Button from "../components/Button"
+import { useState } from "react";
+
+
+type HeaderData = {
+  firstLink: string;
+  firstLinkName: string;
+  secondLink: string;
+  secondLinkName: string;
+};
+
+
 
 export default function Login() {
+
+    const [usernameInput, setUsernameInput] = useState("");
+    const [passwordInput, setPasswordInput] = useState("");
+
+    const loginHeader: HeaderData = {
+      firstLink: "/",
+      firstLinkName: "Home",
+      secondLink: "/signup",
+      secondLinkName: "Create Account"
+    };
+
+    const onSubmit = (event: React.FormEvent) => {
+      event.preventDefault();
+      const newUser = {
+          usernameInput,
+          passwordInput
+      }
+      console.log("Username: " + newUser.usernameInput);
+      console.log("Password: " + newUser.passwordInput);
+      
+      setUsernameInput("");
+      setPasswordInput("");
+    } 
 
     return(
 
       <div className="w-full h-screen relative">
-
+        <div className="absolute top-0 left-0 w-full z-10">
+          <Header header={loginHeader} />
+        </div>
       <Image 
         src= "https://www.shutterstock.com/image-photo/stack-books-against-background-library-600nw-2459213053.jpg"
-        alt="Background Image"
+        alt="login background"
         layout="fill"
         objectFit="cover"
         quality={100}
@@ -24,15 +61,29 @@ export default function Login() {
       <form className="space-y-6">
         <div>
           <h2 className="text-xl text-blue-500 font-bold">Username</h2>
-          <input type="text" id="username" className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <input
+           type="text"
+           id="username"
+           className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
+           placeholder="Enter your username."
+           value={usernameInput}
+           onChange={(e) => setUsernameInput(e.target.value)}/>
+
         </div>
 
         <div>
           <h2 className="text-xl text-blue-500 font-bold">Password</h2>
-          <input type="text" id="password" className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <input
+           type="text"
+           id="password"
+           className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
+           placeholder="Enter your password"
+           value={passwordInput}
+           onChange={(e) => setPasswordInput(e.target.value)}/>
         </div>
-
-        <button type="submit" className="w-full p-3 bg-blue-500 font-bold rounded-md hover:bg-blue-600">LOGIN</button>
+        <div className="m-20 flex justify-center">
+          <Button type="submit" onClick={onSubmit}>Submit</Button>
+        </div>
       </form>
      </div>
   </div>

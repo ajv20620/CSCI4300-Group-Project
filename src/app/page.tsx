@@ -17,7 +17,7 @@ export default function Home() {
   };
   
   return (
-    <div className="grid grid-cols-3 h-screen">
+    <div className="grid grid-cols-3 h-screen bg-yellow-500">
       <div className="col-span-1">
        <Image
         src="/homeImage.jpg"
@@ -29,8 +29,8 @@ export default function Home() {
       </div>
       <div className="col-span-2">
        <Header header={homeHeader}></Header>
-       <div className="leading-none">
-        <h1 className="text-3xl font-bold text-center font-serif m-20 ">Welcome to Librium! Login or Signup to get Started!</h1>
+       <div className="leading-none flex items-center justify-center">
+        <h1 className="text-5xl font-bold text-center font-serif m-20">-Welcome to Librium! Login or Signup to get Started!-</h1>
        </div>
       </div>
     </div>

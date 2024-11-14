@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image"
 import Header from "../components/Header";
 import Button from "../components/Button";
 import { useState } from "react";
@@ -11,15 +12,15 @@ type HeaderData = {
 };
 
 export default function Signup() {
+
     const [usernameInput, setUsernameInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
 
-
-    const header1: HeaderData = {
-        firstLink: "../login",
-        firstLinkName: "Already have an account?",
-        secondLink: "../",
-        secondLinkName: "Cancel Sign Up"
+    const signupHeader: HeaderData = {
+        firstLink: "/",
+        firstLinkName: "Home",
+        secondLink: "/login",
+        secondLinkName: "Already have an account?"
     }
 
     const onSubmit = (event: React.FormEvent) => {
@@ -35,24 +36,51 @@ export default function Signup() {
         setPasswordInput("");
     }
 
+    
     return(
-        <div>
-            <Header header={header1}/>
-            <form className="m-20">
-                <h1>Username</h1>
-                <input type="text" id="username" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
-                placeholder="Enter a username."
-                value={usernameInput}
-                onChange={(e) => setUsernameInput(e.target.value)}/>
-                <h1>Password</h1>
-                <input type="text" id="passsword" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
-                placeholder="Enter a password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}/>x
-                <div className="m-10">
-                  <Button type="submit" onClick={onSubmit}>Submit</Button>
-                </div>
-            </form>
+        <div className="w-full h-screen relative">
+            <div className="absolute top-0 left-0 w-full z-10">
+              <Header header={signupHeader}/>
+            </div>
+            <Image
+              src="/signupPic.jpg"
+              alt="signup background"
+              layout="fill"
+              objectFit="cover"
+              quality={100}
+            />
+            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+              <div className="bg-yellow-500 p-12 rounded-lg shadow-lg w-full max-w-3xl">
+
+                <h1 className="text-5xl text-black font-bold text-center mb-6">SIGNUP PAGE</h1>
+
+                  <form className="space-y-6">
+                    <div>
+                      <h2 className="text-xl text-blue-500 font-bold">Username</h2>
+                      <input
+                        type="text"
+                        id="username"
+                        className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
+                        placeholder="Enter a username."
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}/>
+                    </div>
+                    <div>
+                      <h2 className="text-xl text-blue-500 font-bold">Password</h2>
+                      <input
+                        type="text"
+                        id="passsword"
+                        className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
+                        placeholder="Enter a password"
+                        value={passwordInput}
+                        onChange={(e) => setPasswordInput(e.target.value)}/>
+                      </div>
+                    <div className="m-20 flex justify-center">
+                      <Button type="submit" onClick={onSubmit}>Submit</Button>
+                    </div>
+                  </form>
+              </div>
+            </div>
         </div>
     );
     
