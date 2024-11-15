@@ -56,7 +56,7 @@ export default function Login() {
     <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
         <div className="bg-yellow-500 p-12 rounded-lg shadow-lg w-full max-w-3xl">
 
-      <h1 className="text-5xl text-black font-bold text-center mb-6">LOGIN PAGE</h1>
+      <h1 className="text-5xl text-black font-bold text-center mb-6">LOGIN</h1>
 
       <form className="space-y-6">
         <div>

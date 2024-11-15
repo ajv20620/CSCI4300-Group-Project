@@ -46,7 +46,7 @@ export default function Library() {
     };
 
   return (
-    <div>
+    <div className="bg-yellow-500">
         <Header header={libraryHeader}></Header>
         <div className="flex justify-center m-10">
         <Books books={BOOKS_INIT}/>
