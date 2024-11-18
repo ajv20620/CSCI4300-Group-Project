@@ -4,7 +4,9 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-
+    await connectMongoDB();
+    const books = await Item.find();
+    return NextResponse.json({books});
 }
 
 export async function POST(request: NextRequest) {
