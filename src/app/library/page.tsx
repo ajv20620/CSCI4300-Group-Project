@@ -1,3 +1,5 @@
+"use client";
+import {useState, useEffect} from "react";
 import Link from 'next/link';
 import Header from '../components/Header'
 import itemsList from '../itemsList/page';
@@ -45,11 +47,33 @@ export default function Library() {
     secondLinkName: "Logout",
     };
 
+
+    const [books, setBooks] = useState([]);
+    
+    
+      useEffect(() => {
+          const fetchBooks = async () => {
+              try {
+                  const response = await fetch('api/books');
+                  if (!response.ok) {
+                      throw new Error('Network response was not okay');
+                  }
+                  const data = await response.json();
+                  setBooks(data.books);
+              } catch (error) {
+                  console.log('Error from Books:',error);
+              }
+          };
+          fetchBooks();
+      }, []);
+  
+
+
   return (
     <div className="bg-yellow-500">
         <Header header={libraryHeader}></Header>
         <div className="flex justify-center m-10">
-        <Books books={BOOKS_INIT}/>
+        <Books books={books}/>
         </div>
     </div>
       

@@ -2,6 +2,7 @@
 import Header from "../components/Header";
 import Button from "../components/Button";
 import React, { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 type HeaderData = {
     firstLink: string;
@@ -11,8 +12,12 @@ type HeaderData = {
 };
 
 export default function Additem() {
-    const [titleInput, setTitleInput] = useState("");
-    const [imageUrlInput, setImageUrlInput] = useState("");
+    const [book, setBook] = useState({
+        title:'',
+        imageUrl:'',
+    });
+    const router = useRouter();
+
 
     const addItemHeader: HeaderData = {
         firstLink: "../../",
@@ -21,18 +26,33 @@ export default function Additem() {
         secondLinkName: "Cancel"
     }
 
-    const onSubmit = (event: React.FormEvent) => {
+    const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const newBook = {
-            titleInput,
-            imageUrlInput
-        }
-        console.log("Title: " + newBook.titleInput);
-        console.log("Link: " + newBook.imageUrlInput);
         
-        setTitleInput("");
-        setImageUrlInput("");
-    }
+        try {
+          const response = await fetch('api/books', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(book),
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          //clear input
+          setBook({
+            title: '',
+            imageUrl: '',
+          });
+
+          router.push('/library');
+        } catch (error) {
+          console.error('Error in CreateItem', error);
+        }
+    };
 
 
     return(
@@ -42,13 +62,13 @@ export default function Additem() {
                 <h1>Book Title:</h1>
                 <input type="text" id="book-title" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
                 placeholder="Enter a title."
-                value={titleInput}
-                onChange={(e) => setTitleInput(e.target.value)}/>
+                value={book.title}
+                onChange={(e) => setBook({...book, title: e.target.value})}/>
                 <h1>Link to Cover:</h1>
                 <input type="text" id="book-cover" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
                 placeholder="Enter a link to a cover."
-                value={imageUrlInput}
-                onChange={(e) => setImageUrlInput(e.target.value)}/>
+                value={book.imageUrl}
+                onChange={(e) => setBook({...book, imageUrl: e.target.value})}/>
                 <div className="m-10">
                   <Button type="submit" onClick={onSubmit}>Submit</Button>
                 </div>
@@ -56,5 +76,4 @@ export default function Additem() {
 
         </div>
     );
-    
-}
+    }
