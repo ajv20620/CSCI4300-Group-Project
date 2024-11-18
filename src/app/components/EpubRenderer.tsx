@@ -58,22 +58,26 @@ const EpubRenderer: React.FC<EpubRendererProps> = ({ epubPath }) => {
   };
 
   return (
-    <div style={{ border: '1px solid #ddd', width: '100%', height: '600px' }}>
+    <div className="border border-gray-300 bg-gray-700 rounded-lg p-4 max-w-4xl mx-auto">
       <div
         ref={viewerRef}
-        style={{
-          width: '100%',
-          height: '100%',
-          overflow: 'auto',
-        }}
+        className="w-full h-[600px] bg-gray-100 rounded-lg border border-gray-200 epub-viewer"
       />
-      <div style={{ marginTop: '10px', textAlign: 'center' }}>
-        <button onClick={handlePrev} style={{ marginRight: '10px' }}>
+      <div className="mt-4 flex justify-center space-x-4">
+        <button
+          onClick={handlePrev}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        >
           Previous
         </button>
-        <button onClick={handleNext}>Next</button>
+        <button
+          onClick={handleNext}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+        >
+          Next
+        </button>
       </div>
-      <p style={{ textAlign: 'center' }}>
+      <p className="mt-4 text-center text-sm text-gray-600">
         {currentLocation ? `Current Location: ${currentLocation}` : 'Loading...'}
       </p>
     </div>
