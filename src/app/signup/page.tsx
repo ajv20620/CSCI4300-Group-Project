@@ -23,7 +23,7 @@ export default function Signup() {
         secondLinkName: "Already have an account?"
     }
 
-    const onSubmit = (event: React.FormEvent) => {
+    const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const newUser = {
             usernameInput,
@@ -31,6 +31,26 @@ export default function Signup() {
         }
         console.log("Username: " + newUser.usernameInput);
         console.log("Password: " + newUser.passwordInput);
+
+        if (!newUser.usernameInput || !newUser.passwordInput) {
+          console.log("Username and password required.");
+        } else {
+          try {
+            const postResponse = await fetch("http://localhost:3000/api/users", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json", // Specify JSON content type
+              },
+              body: JSON.stringify(newUser), // Convert the object to a JSON string
+            });
+            if (postResponse.ok) {
+              const result = await postResponse.json();
+              
+            }
+          } catch (err) {
+
+          }
+        }
         
         setUsernameInput("");
         setPasswordInput("");
