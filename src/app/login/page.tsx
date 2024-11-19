@@ -3,7 +3,7 @@ import Image from "next/image";
 import Header from "../components/Header";
 import Button from "../components/Button"
 import { useState } from "react";
-
+import { doCredentialLogin } from "..";
 
 type HeaderData = {
   firstLink: string;
@@ -26,14 +26,32 @@ export default function Login() {
       secondLinkName: "Create Account"
     };
 
-    const onSubmit = (event: React.FormEvent) => {
+    const onSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
-      const newUser = {
+      const user = {
           usernameInput,
           passwordInput
       }
-      console.log("Username: " + newUser.usernameInput);
-      console.log("Password: " + newUser.passwordInput);
+      console.log("Username: " + user.usernameInput);
+      console.log("Password: " + user.passwordInput);
+
+      if (!user.usernameInput || !user.passwordInput) {
+        console.log("Username and password required.");
+      } else {
+        const form = new FormData();
+        form.append(user.usernameInput, user.passwordInput);
+        try {
+          const response = await doCredentialLogin(form);
+  
+          if (response?.ok) {
+              console.log("Sign-in successful!");
+          } else {
+              console.error("Sign-in failed:", response?.error);
+          }
+      } catch (err) {
+          console.error("An unexpected error occurred:", err);
+      }
+      }
       
       setUsernameInput("");
       setPasswordInput("");

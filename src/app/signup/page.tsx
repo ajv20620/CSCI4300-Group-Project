@@ -3,6 +3,7 @@ import Image from "next/image"
 import Header from "../components/Header";
 import Button from "../components/Button";
 import { useState } from "react";
+import { doCredentialLogin } from "../index";
 
 type HeaderData = {
     firstLink: string;
@@ -36,7 +37,7 @@ export default function Signup() {
           console.log("Username and password required.");
         } else {
           try {
-            const postResponse = await fetch("http://localhost:3000/api/users", {
+            const postResponse = await fetch("http://localhost:3000/api/signup", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json", // Specify JSON content type
