@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Header from '../components/Header'
 import Book from '../components/Book';
 import Books from '../components/Books'
+import {useRouter} from 'next/navigation';
 
 
 
@@ -44,6 +45,8 @@ type HeaderData = {
 
 
 export default function Library() {
+  
+  const router = useRouter();
 
   const libraryHeader: HeaderData = {
     firstLink: "/add-item",
@@ -91,6 +94,7 @@ export default function Library() {
 
       const handleUpdate = async (id: string) => {
         console.log("update");
+        router.push(`/update-book/${id}`);
       }
   
 
