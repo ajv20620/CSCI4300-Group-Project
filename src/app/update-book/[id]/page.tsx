@@ -16,22 +16,73 @@ type HeaderData = {
 
 
 export default function updatePage() {
-    const [title, setTitle] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-
+    const [book, setBook] = useState({
+        title:'',
+        imageUrl:'',
+    });
     const updateHeader: HeaderData = {
         firstLink: "/library",
         firstLinkName: "Back to Library",
         secondLink: "/",
         secondLinkName: "Logout"
       };
+      
+      const router = useRouter();
+      const params = useParams();
+      const id = params?.id as string;
 
+      useEffect(() => {
+        const fetchItem = async () => {
+           try {
+            const response = await fetch(`/api/books/${id}`);
+           if (!response.ok) {
+            throw new Error('Network response was not ok');
+           }
+           const data = await response.json();
+           const bookData = data.book;
+           setBook({
+            title: bookData.title || '',
+            imageUrl: bookData.imageUrl || '',
+           });
+           } catch (error) {
+            console.log('Error from UpdateItemInfo');
+           }
+        };
 
-      const onSubmit = (event: React.FormEvent) => {
+        if(id) {
+            fetchItem();
+        }
+      }, [id]);
+
+    
+
+      const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+
+        try {
+            const response = await fetch(`/api/books/${id}`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(book),
+            });
+  
+            if (!response.ok) {
+              throw new Error('Failed to update book data');
+            }
+  
+            //clear input
+            setBook({
+              title: '',
+              imageUrl: '',
+            });
+  
+            router.push('/library');
+          } catch (error) {
+            console.error('Error updating book', error);
+          }
         
-        setTitle("");
-        setImageUrl("");
       } 
 
     return(
@@ -60,8 +111,8 @@ export default function updatePage() {
            id="newTitle"
            className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
            placeholder="Enter a new title"
-           value={title}
-           onChange={(e) => setTitle(e.target.value)}/>
+           value={book.title}
+           onChange={(e) => setBook({...book, title: e.target.value})}/>
 
         </div>
 
@@ -72,8 +123,8 @@ export default function updatePage() {
            id="newImageUrl"
            className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
            placeholder="Enter a new image URL"
-           value={imageUrl}
-           onChange={(e) => setImageUrl(e.target.value)}/>
+           value={book.imageUrl}
+           onChange={(e) => setBook({...book, imageUrl: e.target.value})}/>
         </div>
         <div className="m-20 flex justify-center">
           <Button type="submit" onClick={onSubmit}>Submit</Button>
