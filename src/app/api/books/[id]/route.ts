@@ -10,7 +10,7 @@ interface RouteParams {
 
 
 export async function DELETE(request: NextRequest, {params}: RouteParams) {
-    const {id} = params;
+    const { id } = await params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return NextResponse.json({message: "Invalid ID format"}, {status:400});
