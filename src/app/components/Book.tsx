@@ -8,13 +8,23 @@ type BookProps = {
       title: string;
   };
   onDelete: (id: string) => void;
+  onUpdate: (id: string) => void;
 };
 
 
-export default function Book({ book, onDelete }: BookProps) {
+export default function Book({ book, onDelete, onUpdate}: BookProps) {
     return (
       <div className="relative shadow rounded-xl bg-blue-500 p-3 flex flex-col items-center flex-wrap w-[200px] border border-yellow-500" >
         <h1 className="text-center text-black font-serif">-{book.title}-</h1>
+        <button className='absolute top-2 right-2' onClick={() => onUpdate(book._id)}>
+          <Image
+            src={"/updateIcon.png"}
+            alt={"update book"}
+            width={25}
+            height={25}
+            className="cursor-pointer"
+           />
+        </button>
         <Image
           src={book.imageUrl}
           alt={book.title}

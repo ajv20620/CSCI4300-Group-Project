@@ -88,14 +88,18 @@ export default function Library() {
         }
       
       };
+
+      const handleUpdate = async (id: string) => {
+        console.log("update");
+      }
   
 
 
   return (
-    <div className="bg-yellow-500">
+    <div className="w-screen h-screen bg-yellow-500">
         <Header header={libraryHeader}></Header>
         <div className="flex justify-center m-10">
-        <Books books={books} onDelete={handleDelete}/>
+        <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate}/>
         </div>
     </div>
       

@@ -25,3 +25,11 @@ export async function DELETE(request: NextRequest, {params}: RouteParams) {
 
     return NextResponse.json({message:"Item deleted" }, {status:200});
 }
+
+export async function PUT(request:NextRequest, {params}:RouteParams) {
+    const {id} = await params;
+    const {title: title, imageUrl: imageUrl} = await request.json();
+    await connectMongoDB();
+    await Item.findByIdAndUpdate(id, {title, imageUrl});
+    return NextResponse.json({ message: "Item updated" }, {status: 200});
+}
