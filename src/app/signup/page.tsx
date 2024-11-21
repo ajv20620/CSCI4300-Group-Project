@@ -88,7 +88,7 @@ export default function Signup() {
                     <div>
                       <h2 className="text-xl text-blue-500 font-bold">Password</h2>
                       <input
-                        type="text"
+                        type="password"
                         id="passsword"
                         className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
                         placeholder="Enter a password"

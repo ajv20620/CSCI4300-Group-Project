@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Button from "../components/Button"
 import { useState } from "react";
 import { doCredentialLogin } from "..";
+import {useRouter} from "next/navigation";
 
 type HeaderData = {
   firstLink: string;
@@ -15,6 +16,7 @@ type HeaderData = {
 
 
 export default function Login() {
+    const router = useRouter();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -45,6 +47,7 @@ export default function Login() {
           const response = await doCredentialLogin(form);
   
           if (!response.error) {
+            router.push("/library")
             console.log("Sign-in successful!");
         } else {
             console.error("Sign-in failed:", response.error);
@@ -93,7 +96,7 @@ export default function Login() {
         <div>
           <h2 className="text-xl text-blue-500 font-bold">Password</h2>
           <input
-           type="text"
+           type="password"
            id="password"
            className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
            placeholder="Enter your password"
