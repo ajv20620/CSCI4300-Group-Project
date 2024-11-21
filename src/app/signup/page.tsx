@@ -3,6 +3,7 @@ import Image from "next/image"
 import Header from "../components/Header";
 import Button from "../components/Button";
 import { useState } from "react";
+import { doCredentialLogin } from "../index";
 
 type HeaderData = {
     firstLink: string;
@@ -13,8 +14,8 @@ type HeaderData = {
 
 export default function Signup() {
 
-    const [usernameInput, setUsernameInput] = useState("");
-    const [passwordInput, setPasswordInput] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const signupHeader: HeaderData = {
         firstLink: "/",
@@ -23,17 +24,36 @@ export default function Signup() {
         secondLinkName: "Already have an account?"
     }
 
-    const onSubmit = (event: React.FormEvent) => {
+    const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const newUser = {
-            usernameInput,
-            passwordInput
+            username,
+            password
         }
-        console.log("Username: " + newUser.usernameInput);
-        console.log("Password: " + newUser.passwordInput);
+        console.log("Username: " + newUser.username);
+        console.log("Password: " + newUser.password);
+
+        if (!newUser.username || !newUser.password) {
+          console.log("Username and password required.");
+        } else {
+          try {
+            const postResponse = await fetch("http://localhost:3000/api/signup", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json", // Specify JSON content type
+              },
+              body: JSON.stringify(newUser), // Convert the object to a JSON string
+            });
+            if (postResponse.ok) {
+              const result = await postResponse.json();
+            }
+          } catch (err) {
+
+          }
+        }
         
-        setUsernameInput("");
-        setPasswordInput("");
+        setUsername("");
+        setPassword("");
     }
 
     
@@ -62,8 +82,8 @@ export default function Signup() {
                         id="username"
                         className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
                         placeholder="Enter a username."
-                        value={usernameInput}
-                        onChange={(e) => setUsernameInput(e.target.value)}/>
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}/>
                     </div>
                     <div>
                       <h2 className="text-xl text-blue-500 font-bold">Password</h2>
@@ -72,8 +92,8 @@ export default function Signup() {
                         id="passsword"
                         className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
                         placeholder="Enter a password"
-                        value={passwordInput}
-                        onChange={(e) => setPasswordInput(e.target.value)}/>
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}/>
                       </div>
                     <div className="m-20 flex justify-center">
                       <Button type="submit" onClick={onSubmit}>Submit</Button>
