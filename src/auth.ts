@@ -38,7 +38,7 @@ export const {
                 username: user.username,
               };
             } else {
-              console.log("Email or password is incorrect.");
+              console.log("Username or password is incorrect.");
               return null;
             }
           } else {

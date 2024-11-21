@@ -5,6 +5,8 @@ import Header from '../components/Header'
 import Book from '../components/Book';
 import Books from '../components/Books'
 import {useRouter} from 'next/navigation';
+import Button from "../components/Button";
+import { doLogout } from "..";
 
 
 
@@ -96,6 +98,10 @@ export default function Library() {
         console.log("update");
         router.push(`/update-book/${id}`);
       }
+
+      const onSubmit = async (event: React.FormEvent) => {
+        doLogout();
+      } 
   
 
 
@@ -104,6 +110,10 @@ export default function Library() {
         <Header header={libraryHeader}></Header>
         <div className="flex justify-center m-10">
         <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate}/>
+        </div>
+
+        <div className="m-20 flex justify-center">
+          <Button type="submit" onClick={onSubmit}>Logout</Button>
         </div>
     </div>
       
