@@ -21,6 +21,7 @@ export const {
       async authorize(credentials) {
         if (!credentials) return null;
 
+        console.log("Finding user with username:", credentials.username);
         try {
           await connectMongoDB();
           const user = await User.findOne({ username: credentials.username }).lean();
@@ -31,6 +32,7 @@ export const {
               user.password
             );
             if (isMatch) {
+              console.log("auth.ts: sign in success")
               return {
                 id: user._id.toString(),
                 username: user.username,

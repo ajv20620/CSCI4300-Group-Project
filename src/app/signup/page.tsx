@@ -46,7 +46,6 @@ export default function Signup() {
             });
             if (postResponse.ok) {
               const result = await postResponse.json();
-              
             }
           } catch (err) {
 

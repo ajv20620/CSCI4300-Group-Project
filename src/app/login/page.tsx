@@ -16,8 +16,8 @@ type HeaderData = {
 
 export default function Login() {
 
-    const [usernameInput, setUsernameInput] = useState("");
-    const [passwordInput, setPasswordInput] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const loginHeader: HeaderData = {
       firstLink: "/",
@@ -29,32 +29,33 @@ export default function Login() {
     const onSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
       const user = {
-          usernameInput,
-          passwordInput
+          username,
+          password
       }
-      console.log("Username: " + user.usernameInput);
-      console.log("Password: " + user.passwordInput);
+      console.log("Username: " + user.username);
+      console.log("Password: " + user.password);
 
-      if (!user.usernameInput || !user.passwordInput) {
-        console.log("Username and password required.");
+      if (!user.username || !user.password) {
+          console.log("Username and password required.");
       } else {
         const form = new FormData();
-        form.append(user.usernameInput, user.passwordInput);
+        form.append("username", user.username);
+        form.append("password", user.password);
         try {
           const response = await doCredentialLogin(form);
   
-          if (response?.ok) {
-              console.log("Sign-in successful!");
-          } else {
-              console.error("Sign-in failed:", response?.error);
-          }
+          if (!response.error) {
+            console.log("Sign-in successful!");
+        } else {
+            console.error("Sign-in failed:", response.error);
+        }
       } catch (err) {
           console.error("An unexpected error occurred:", err);
       }
       }
       
-      setUsernameInput("");
-      setPasswordInput("");
+      setUsername("");
+      setPassword("");
     } 
 
     return(
@@ -84,8 +85,8 @@ export default function Login() {
            id="username"
            className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
            placeholder="Enter your username."
-           value={usernameInput}
-           onChange={(e) => setUsernameInput(e.target.value)}/>
+           value={username}
+           onChange={(e) => setUsername(e.target.value)}/>
 
         </div>
 
@@ -96,8 +97,8 @@ export default function Login() {
            id="password"
            className="w-full p-2 mt-2 border border-gray-300 rounded-md text-blue-600 placeholder-black-500"
            placeholder="Enter your password"
-           value={passwordInput}
-           onChange={(e) => setPasswordInput(e.target.value)}/>
+           value={password}
+           onChange={(e) => setPassword(e.target.value)}/>
         </div>
         <div className="m-20 flex justify-center">
           <Button type="submit" onClick={onSubmit}>Submit</Button>
