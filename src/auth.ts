@@ -15,7 +15,7 @@ export const {
   providers: [
     CredentialsProvider({
       credentials: {
-        username: {},
+        username: { label: "Username", type: "text" },
         password: {},
       },
       async authorize(credentials) {
@@ -51,5 +51,23 @@ export const {
         }
       }
     })
-  ]
+  ],
+  callbacks: {
+    // Include username in the JWT token
+    async jwt({ token, user }) {
+      if (user) {
+        token.username = user.username; // Add username from `authorize` to token
+      }
+      return token;
+    },
+    // Include username in the session object
+    async session({ session, token }) {
+      session.user = {
+        ...session.user, // Keep existing properties (e.g., name, email)
+        username: token.username, // Add username from token to session
+      };
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });

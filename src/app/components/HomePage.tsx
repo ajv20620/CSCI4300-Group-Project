@@ -44,7 +44,7 @@ export default function HomeClient({ session }: { session: any }) {
         <div className="leading-none flex items-center justify-center">
           <h1 className="text-5xl font-bold text-center font-serif m-20">
             {session
-              ? `Welcome back, ${session?.user?.name || "User"}!`
+              ? `Welcome back, ${session?.user?.username || "User1"}!`
               : "-Welcome to Librium! Login or Signup to get Started!-" }
           </h1>
         </div>
