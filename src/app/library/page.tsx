@@ -38,24 +38,20 @@ const BOOKS_INIT: book[] = [
 ];
 */
 
-type HeaderData = {
-    firstLink: string;
-    firstLinkName: string;
-    secondLink: string;
-    secondLinkName: string;
-}
-
-
 export default function Library() {
   
   const router = useRouter();
 
-  const libraryHeader: HeaderData = {
-    firstLink: "/add-item",
-    firstLinkName: "Add Item",
-    secondLink: "/",
-    secondLinkName: "Logout",
-    };
+  const libraryHeaderButtons = [
+    {
+      label: "Login",
+      onClick: () => router.push("/login"),
+    },
+    {
+      label: "Signup",
+      onClick: () => router.push("/signup"),
+    },
+  ];
 
 
     const [books, setBooks] = useState([]);
@@ -107,7 +103,7 @@ export default function Library() {
 
   return (
     <div className="w-screen h-screen bg-yellow-500">
-        <Header header={libraryHeader}></Header>
+        <Header buttons={libraryHeaderButtons}></Header>
         <div className="flex justify-center m-10">
         <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate}/>
         </div>

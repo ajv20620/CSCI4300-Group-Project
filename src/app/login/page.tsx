@@ -5,14 +5,7 @@ import Button from "../components/Button"
 import { useState } from "react";
 import { doCredentialLogin } from "..";
 import {useRouter} from "next/navigation";
-
-type HeaderData = {
-  firstLink: string;
-  firstLinkName: string;
-  secondLink: string;
-  secondLinkName: string;
-};
-
+import { log } from "console";
 
 
 export default function Login() {
@@ -21,12 +14,16 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const loginHeader: HeaderData = {
-      firstLink: "/",
-      firstLinkName: "Home",
-      secondLink: "/signup",
-      secondLinkName: "Create Account"
-    };
+    const loginHeaderButtons = [
+      {
+        label: "Login",
+        onClick: () => router.push("/login"),
+      },
+      {
+        label: "Signup",
+        onClick: () => router.push("/signup"),
+      },
+    ];
 
     const onSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
@@ -65,7 +62,7 @@ export default function Login() {
 
       <div className="w-full h-screen relative">
         <div className="absolute top-0 left-0 w-full z-10">
-          <Header header={loginHeader} />
+          <Header buttons={loginHeaderButtons} />
         </div>
       <Image 
         src= "https://www.shutterstock.com/image-photo/stack-books-against-background-library-600nw-2459213053.jpg"
