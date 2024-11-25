@@ -34,7 +34,8 @@ const BOOKS_INIT: book[] = [
       imageUrl:"https://m.media-amazon.com/images/I/61OTNorhqVS._AC_UF894,1000_QL80_.jpg"
     },
 
-
+    // Book of the New Sun
+    // https://m.media-amazon.com/images/I/91RoFyMfEGL._AC_UF1000,1000_QL80_.jpg
 ];
 */
 
