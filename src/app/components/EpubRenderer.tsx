@@ -61,7 +61,7 @@ const EpubRenderer: React.FC<EpubRendererProps> = ({ epubPath }) => {
     <div className="border border-gray-300 bg-gray-700 rounded-lg p-4 max-w-4xl mx-auto">
       <div
         ref={viewerRef}
-        className="w-full h-[600px] bg-gray-100 rounded-lg border border-gray-200 epub-viewer"
+        className="w-full h-[500px] bg-gray-100 rounded-lg border border-gray-200 epub-viewer"
       />
       <div className="mt-4 flex justify-center space-x-4">
         <button
