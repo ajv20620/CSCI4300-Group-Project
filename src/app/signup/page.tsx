@@ -3,26 +3,25 @@ import Image from "next/image"
 import Header from "../components/Header";
 import Button from "../components/Button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { doCredentialLogin } from "../index";
 
-type HeaderData = {
-    firstLink: string;
-    firstLinkName: string;
-    secondLink: string;
-    secondLinkName: string;
-};
-
 export default function Signup() {
+  const router = useRouter(); 
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const signupHeader: HeaderData = {
-        firstLink: "/",
-        firstLinkName: "Home",
-        secondLink: "/login",
-        secondLinkName: "Already have an account?"
-    }
+    const signupHeaderButtons = [
+      {
+        label: "Already Logged In?",
+        onClick: () => router.push("/library"),
+      },
+      {
+        label: "Cancel",
+        onClick: () => router.push("/"),
+      },
+    ];
 
     const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -60,7 +59,7 @@ export default function Signup() {
     return(
         <div className="w-full h-screen relative">
             <div className="absolute top-0 left-0 w-full z-10">
-              <Header header={signupHeader}/>
+              <Header buttons={signupHeaderButtons}/>
             </div>
             <Image
               src="/signupPic.jpg"
