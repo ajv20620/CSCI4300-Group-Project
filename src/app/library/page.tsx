@@ -108,7 +108,12 @@ export default function Library() {
     <div className="w-screen h-screen bg-yellow-500">
         <Header buttons={libraryHeaderButtons}></Header>
         <div className="flex justify-center m-10">
-        <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate}/>
+        {/* Conditional rendering for books */}
+        {books.length === 0 ? (
+          <div className="text-xl font-semibold">There's no books in your library. Add one to get started!</div>
+        ) : (
+          <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate} />
+        )}
         </div>
 
         <div className="m-20 flex justify-center">
