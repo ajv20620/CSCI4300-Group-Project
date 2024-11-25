@@ -11,7 +11,7 @@ export default function Additem() {
         imageUrl:'',
     });
     const router = useRouter();
-
+    const [error, setError] = useState("");
 
     const addItemHeaderButtons = [
       {
@@ -30,6 +30,11 @@ export default function Additem() {
     const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         
+        if (!book.title || !book.imageUrl) {
+          setError("Cannot add book. Please try again");
+          return;
+      }
+
         try {
           const response = await fetch('api/books', {
             method: 'POST',
@@ -57,21 +62,26 @@ export default function Additem() {
 
 
     return(
-        <div>
+      <div className="flex flex-col items-center justify-center w-screen h-screen text-white">
             <Header buttons={addItemHeaderButtons}/>
-            <form className="m-10">
-                <h1>Book Title:</h1>
-                <input type="text" id="book-title" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+            <form className="w-[90%] max-w-md p-6 bg-yellow-500 shadow-md rounded-lg text-white flex flex-col gap-4 m-10 z-10">
+                <h1 className="font-bold text-lg">Book Title:</h1>
+                <input type="text" id="book-title" className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
                 placeholder="Enter a title."
                 value={book.title}
                 onChange={(e) => setBook({...book, title: e.target.value})}/>
-                <h1>Link to Cover:</h1>
-                <input type="text" id="book-cover" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
+                <h1 className="font-bold text-lg">Link to Cover:</h1>
+                <input type="text" id="book-cover" className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
                 placeholder="Enter a link to a cover."
                 value={book.imageUrl}
                 onChange={(e) => setBook({...book, imageUrl: e.target.value})}/>
-                <div className="m-10">
-                  <Button type="submit" onClick={onSubmit}>Submit</Button>
+
+            {error && (
+              <p className="text-red-600 font-bold">{error}</p>
+            )}
+
+                <div className="flex justify-center m-10">
+                  <Button type="submit" onClick={onSubmit}>Add</Button>
                 </div>
             </form>
 
