@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import Image from "next/image"
 import {useState, useEffect} from "react";
 import {useRouter, useParams} from "next/navigation";
+import { doLogout } from "@/app";
 
 
 type HeaderData = {
@@ -20,12 +21,19 @@ export default function updatePage() {
         title:'',
         imageUrl:'',
     });
-    const updateHeader: HeaderData = {
-        firstLink: "/library",
-        firstLinkName: "Back to Library",
-        secondLink: "/",
-        secondLinkName: "Logout"
-      };
+    const updateHeaderButtons = [
+      {
+        label: "Cancel",
+        onClick: () => router.push("/library"),
+      },
+      {
+        label: "Logout",
+        onClick: () => {
+          doLogout();
+          router.push("/");
+        }
+      }
+    ];
       
       const router = useRouter();
       const params = useParams();
@@ -88,7 +96,7 @@ export default function updatePage() {
     return(
         <div className="w-full h-screen relative">
         <div className="absolute top-0 left-0 w-full z-10">
-          <Header header={updateHeader} />
+          <Header buttons={updateHeaderButtons}/>
         </div>
       <Image 
         src="/updateBackground.jpg"

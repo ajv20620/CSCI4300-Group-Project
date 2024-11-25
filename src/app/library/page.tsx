@@ -128,7 +128,7 @@ export default function Library() {
           <Button type="button" onClick={onBookSelect}>Read</Button>
         </div>
       
-          <div className = {`${status === "example1" ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+          <div className = {`h-[600] w-[600] ${status === "example1" ? "opacity-100 visible" : "opacity-0 invisible"}`} >
           <EpubRenderer epubPath="/uploads/example1.epub"></EpubRenderer> </div>
         
       
