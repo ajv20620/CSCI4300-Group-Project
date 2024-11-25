@@ -7,9 +7,9 @@ import Books from '../components/Books'
 import {useRouter} from 'next/navigation';
 import Button from "../components/Button";
 import { doLogout } from "..";
+import EpubRenderer from "../components/EpubRenderer";
 
-
-
+type renderStatus = "none" | "example1"
 
 type book = {
   _id: string;
@@ -41,6 +41,8 @@ const BOOKS_INIT: book[] = [
 export default function Library() {
   
   const router = useRouter();
+
+  const [status, setStatus] = useState<renderStatus>("none");
 
   const libraryHeaderButtons = [
     {
@@ -101,7 +103,13 @@ export default function Library() {
       const onSubmit = async (event: React.FormEvent) => {
         doLogout();
       } 
-  
+      
+      const onBookSelect = (event: React.FormEvent) => {
+        setStatus("example1");
+        if (status === "example1"){
+          setStatus("none");
+        }
+      }
 
 
   return (
@@ -116,6 +124,14 @@ export default function Library() {
         )}
         </div>
 
+        <div className="flex justify-center m-10">
+          <Button type="button" onClick={onBookSelect}>Read</Button>
+        </div>
+      
+          <div className = {`${status === "example1" ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+          <EpubRenderer epubPath="/uploads/example1.epub"></EpubRenderer> </div>
+        
+      
         <div className="m-20 flex justify-center">
           <Button type="submit" onClick={onSubmit}>Logout</Button>
         </div>
