@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Header from "./Header";
 import { useRouter } from "next/navigation";
-import { auth } from "../../auth"
 
-export default function HomeClient({ session }: { session: any }) {
+export default function HomePage({ session }: { session: any }) {
   const router = useRouter();
 
   // Buttons for logged-in and logged-out users

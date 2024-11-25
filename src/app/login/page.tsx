@@ -5,7 +5,7 @@ import Button from "../components/Button"
 import { useState } from "react";
 import { doCredentialLogin } from "..";
 import {useRouter} from "next/navigation";
-import { log } from "console";
+import { doLogout } from "..";
 
 
 export default function Login() {
@@ -16,12 +16,12 @@ export default function Login() {
 
     const loginHeaderButtons = [
       {
-        label: "Login",
-        onClick: () => router.push("/login"),
+        label: "Sign Up",
+        onClick: () => router.push("/signup"),
       },
       {
-        label: "Signup",
-        onClick: () => router.push("/signup"),
+        label: "Cancel",
+        onClick: () => router.push("/"),
       },
     ];
 

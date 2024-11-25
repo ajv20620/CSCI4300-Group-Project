@@ -44,12 +44,15 @@ export default function Library() {
 
   const libraryHeaderButtons = [
     {
-      label: "Login",
-      onClick: () => router.push("/login"),
+      label: "Add Item",
+      onClick: () => router.push("/add-item"),
     },
     {
-      label: "Signup",
-      onClick: () => router.push("/signup"),
+      label: "Logout",
+      onClick: () => {
+        doLogout();
+        router.push("/");
+      }
     },
   ];
 

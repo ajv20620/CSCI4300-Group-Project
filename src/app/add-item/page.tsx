@@ -3,13 +3,7 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
-
-type HeaderData = {
-    firstLink: string;
-    firstLinkName: string;
-    secondLink: string;
-    secondLinkName: string;
-};
+import { doLogout } from "..";
 
 export default function Additem() {
     const [book, setBook] = useState({
@@ -19,12 +13,19 @@ export default function Additem() {
     const router = useRouter();
 
 
-    const addItemHeader: HeaderData = {
-        firstLink: "../../",
-        firstLinkName: "Logout",
-        secondLink: "/library", 
-        secondLinkName: "Cancel"
-    }
+    const addItemHeaderButtons = [
+      {
+        label: "Cancel",
+        onClick: () => router.push("/library"),
+      },
+      {
+        label: "Logout",
+        onClick: () => {
+          doLogout();
+          router.push("/");
+        }
+      },
+    ];
 
     const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -57,7 +58,7 @@ export default function Additem() {
 
     return(
         <div>
-            <Header header={addItemHeader}/>
+            <Header buttons={addItemHeaderButtons}/>
             <form className="m-10">
                 <h1>Book Title:</h1>
                 <input type="text" id="book-title" className="w-full p-2 mt-2 border border-gray-300 rounded-md"
