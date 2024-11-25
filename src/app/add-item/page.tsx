@@ -62,9 +62,13 @@ export default function Additem() {
 
 
     return(
-      <div className="flex flex-col items-center justify-center w-screen h-screen text-white">
+      <div>
             <Header buttons={addItemHeaderButtons}/>
+          <div className="flex flex-col items-center justify-center mt-[96px]">
             <form className="w-[90%] max-w-md p-6 bg-yellow-500 shadow-md rounded-lg text-white flex flex-col gap-4 m-10 z-10">
+            <div className="flex items-center justify-center">
+                <h1 className="text-xl font-bold">Add a Book</h1>
+              </div>
                 <h1 className="font-bold text-lg">Book Title:</h1>
                 <input type="text" id="book-title" className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
                 placeholder="Enter a title."
@@ -84,7 +88,7 @@ export default function Additem() {
                   <Button type="submit" onClick={onSubmit}>Add</Button>
                 </div>
             </form>
-
+          </div>
         </div>
     );
     }
