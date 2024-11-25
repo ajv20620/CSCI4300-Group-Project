@@ -14,10 +14,10 @@ type BookProps = {
 
 export default function Book({ book, onDelete, onUpdate}: BookProps) {
     return (
-      <div className="relative shadow rounded-xl bg-blue-500 p-3 flex flex-col items-center flex-wrap w-[200px] border border-yellow-500" >
+      <div className="relative shadow rounded-xl bg-blue-500 p-3 flex flex-col items-center flex-wrap w-[200px] border border-yellow-500 hover:scale-105 transition-transform" >
         <div className="flex justify-between items-center w-full mb-4">
           <h1 className="text-black font-serif">-{book.title}-</h1>
-          <button className='flex-shrink-0' onClick={() => onUpdate(book._id)}>
+          <button className='flex-shrink-0 hover:scale-105 transition-transform' onClick={() => onUpdate(book._id)}>
             <Image
               src={"/updateIcon.png"}
               alt={"update book"}
@@ -35,7 +35,7 @@ export default function Book({ book, onDelete, onUpdate}: BookProps) {
           priority
           className=''
         />
-        <button className='absolute bottom-2 right-2' onClick={() => onDelete(book._id)}>
+        <button className='absolute bottom-2 right-2 hover:scale-105 transition-transform' onClick={() => onDelete(book._id)}>
           <Image
             src={"/trashcanIcon.png"}
             alt={"delete book"}
