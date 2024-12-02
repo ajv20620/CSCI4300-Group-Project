@@ -9,5 +9,7 @@ export async function uploadFile(formData: FormData) {
 
   await fs.writeFile(`./public/uploads/${file.name}`, buffer);
 
+  console.log(`Sucessfully uploaded file: ${file.name}`)
+
   revalidatePath("/");
 }

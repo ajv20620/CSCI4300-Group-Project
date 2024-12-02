@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     const owner = formData.get("owner");
     const filePath = "public/uploads/" + file?.current?.files?.[0].name;
     
-    await uploadFile(await request.formData());
+    await uploadFile(formData);
     await connectMongoDB();
     await Item.create({title, imageUrl, filePath, owner});
     return NextResponse.json({message: "Book added successfully"}, {status: 201})
