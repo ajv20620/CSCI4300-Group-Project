@@ -3,6 +3,8 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 interface IBook extends Document {
     title: string;
     imageUrl:string;
+    filePath: string;
+    owner: string;
 }
 
 const bookSchema = new Schema<IBook> ({
@@ -11,6 +13,14 @@ const bookSchema = new Schema<IBook> ({
         required: true,
     },
     imageUrl: {
+        type: String,
+        required: true,
+    },
+    filePath: {
+        type: String,
+        required: true,
+    },
+    owner: {
         type: String,
         required: true,
     },
