@@ -45,6 +45,18 @@ export default function Signup() {
             });
             if (postResponse.ok) {
               const result = await postResponse.json();
+              const newUserForm = new FormData();
+              newUserForm.append("username", newUser.username);
+              newUserForm.append("password", newUser.password);
+              console.log()
+              const response = await doCredentialLogin(newUserForm);
+              console.log("docrendentiallogin")
+              if (!response.error) {
+                console.log("pushing to library");
+                router.push("/library");
+              } else {
+                console.log(response.ok + "not okay")
+              }
             }
           } catch (err) {
 
