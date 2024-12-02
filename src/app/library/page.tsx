@@ -7,6 +7,7 @@ import Books from '../components/Books'
 import {useRouter} from 'next/navigation';
 import Button from "../components/Button";
 import { doLogout } from "..";
+import { useSession } from "next-auth/react";
 
 
 
@@ -39,8 +40,8 @@ const BOOKS_INIT: book[] = [
 */
 
 export default function Library() {
-  
   const router = useRouter();
+  const { data: session } = useSession();
 
   const libraryHeaderButtons = [
     {
@@ -60,8 +61,9 @@ export default function Library() {
     const [books, setBooks] = useState([]);
     
     const fetchBooks = async () => {
+      const owner = session?.user?.username;
       try {
-          const response = await fetch('api/books');
+          const response = await fetch(`/api/books?owner=${owner}`);
           if (!response.ok) {
               throw new Error('Network response was not okay');
           }
@@ -74,8 +76,10 @@ export default function Library() {
 
     //Get all books from MongoDB
       useEffect(() => {
+        if (session?.user?.username) {
           fetchBooks();
-      }, []);
+        }
+      }, [session]);
 
       //Deleting book then get all books again to immediately rerender
       const handleDelete = async (id: string) => {
@@ -100,7 +104,11 @@ export default function Library() {
 
       const onSubmit = async (event: React.FormEvent) => {
         doLogout();
-      } 
+      }
+
+      const onRead = (id: string) => {
+        
+      }
   
 
 
@@ -110,9 +118,9 @@ export default function Library() {
         <div className="flex justify-center m-10">
         {/* Conditional rendering for books */}
         {books.length === 0 ? (
-          <div className="text-xl font-semibold">There's no books in your library. Add one to get started!</div>
+          <div className="text-xl font-semibold">There are no books in your library. Add one to get started!</div>
         ) : (
-          <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate} />
+          <Books books={books} onDelete={handleDelete} onUpdate={handleUpdate} onRead={onRead}/>
         )}
         </div>
 

@@ -33,3 +33,9 @@ export async function PUT(request:NextRequest, {params}:RouteParams) {
     await Item.findByIdAndUpdate(id, {title, imageUrl});
     return NextResponse.json({ message: "Item updated" }, {status: 200});
 }
+
+export async function GET(request: NextRequest, {params}:RouteParams) {
+    const {id} = await params; 
+    await connectMongoDB();
+    const { filePath } = await Item.findById(id)
+}
