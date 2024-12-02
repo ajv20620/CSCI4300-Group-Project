@@ -38,14 +38,20 @@ export default function HomePage({ session }: { session: any }) {
           priority
         />
       </div>
-      <div className="md:col-span-2">
+      <div className="md:col-span-2 flex flex-col">
         <Header buttons={session ? loggedInHeaderButtons : loggedOutHeaderButtons} />
-        <div className="leading-none flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center h-full">
           <h1 className="text-5xl font-bold text-center font-serif m-20">
             {session
               ? `Welcome back, ${session?.user?.username || "User1"}!`
               : "-Welcome to Librium! Login or Signup to get Started!-" }
           </h1>
+          <Image
+            src="/welcomeImage.png" 
+            alt="Welcome"
+            width={400} 
+            height={200}
+            className=""/>
         </div>
       </div>
     </div>
