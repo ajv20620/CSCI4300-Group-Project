@@ -1,11 +1,10 @@
 'use client';
-
 import Image from "next/image";
 import Header from "./Header";
 import { useRouter } from "next/navigation";
 import { doLogout } from "..";
 
-export default function HomePage({ session }: { session: any }) {
+export default function Home({ session }: { session: any }) {
   const router = useRouter();
 
   const loggedInHeaderButtons = [
@@ -49,7 +48,7 @@ export default function HomePage({ session }: { session: any }) {
         <div className="flex flex-col items-center justify-center h-full">
           <h1 className="text-5xl font-bold text-center font-serif m-20">
             {session
-              ? `Welcome back, ${session?.user?.username || "User1"}!`
+              ? `Welcome back, ${session?.user?.username || "User"}!`
               : "-Welcome to Librium! Login or Signup to get Started!-" }
           </h1>
           <Image

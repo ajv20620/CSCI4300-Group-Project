@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Header from "../components/Header";
 import Button from "../components/Button";
 import React, { useState } from 'react';
@@ -16,7 +16,6 @@ export default function Additem() {
     const router = useRouter();
     const [error, setError] = useState("");
     const file = useRef<HTMLInputElement>(null);
-    
 
     const addItemHeaderButtons = [
       {
@@ -34,7 +33,6 @@ export default function Additem() {
 
     const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        
         const owner = session?.user?.username;
         const selectedFile = file?.current?.files?.[0];
         if (!book.title || !book.imageUrl || !owner || !selectedFile) {
@@ -51,9 +49,6 @@ export default function Additem() {
         try {
           const response = await fetch('api/books', {
             method: 'POST',
-            //headers: {
-            //    'Content-Type': 'application/json'
-            //},
             body: bookForm,
           });
 
@@ -75,54 +70,50 @@ export default function Additem() {
 
 
     return(
-      <div
-            className="flex flex-col w-screen h-screen text-white relative"
-            style={{
-                backgroundImage: "url('/addItem.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
-            
-            <Header buttons={addItemHeaderButtons}/>
-            <div className="flex flex-grow justify-center items-center z-10">
-            <form className="w-[90%] max-w-md p-6 bg-yellow-500 shadow-md rounded-lg text-white flex flex-col gap-4 m-10 z-10 ">
-                <h1 className="font-bold text-lg">Book Title:</h1>
-                <input
-                    type="text"
-                    id="book-title"
-                    className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
-                    placeholder="Enter a title."
-                    value={book.title}
-                    onChange={(e) => setBook({ ...book, title: e.target.value })}
-                />
-                <h1 className="font-bold text-lg">Link to Cover:</h1>
-                <input
-                    type="text"
-                    id="book-cover"
-                    className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
-                    placeholder="Enter a link to a cover."
-                    value={book.imageUrl}
-                    onChange={(e) => setBook({ ...book, imageUrl: e.target.value })}
-                />
-                <h1 className="font-bold text-lg">Upload file:</h1>
-                <input
-                    type="file"
-                    id="file-path"
-                    ref={file}
-                    className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
-                    placeholder="Select an epub file."
-                />
-                {error && <p className="text-red-600 font-bold">{error}</p>}
-
-                <div className="flex justify-center m-10">
-                    <Button type="submit" onClick={onSubmit}>
-                        Add
-                    </Button>
-                </div>
-            </form>
-            </div>
-      </div>
+      <div className="flex flex-col w-screen h-screen text-white relative"
+        style={{
+          backgroundImage: "url('/addItem.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}>
+        <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
+          <Header buttons={addItemHeaderButtons}/>
+          <div className="flex flex-grow justify-center items-center z-10">
+          <form className="w-[90%] max-w-md p-6 bg-yellow-500 shadow-md rounded-lg text-white flex flex-col gap-4 m-10 z-10 ">
+            <h1 className="font-bold text-lg">Book Title:</h1>
+            <input
+              type="text"
+              id="book-title"
+              className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
+              placeholder="Enter a title."
+              value={book.title}
+              onChange={(e) => setBook({ ...book, title: e.target.value })}
+            />
+            <h1 className="font-bold text-lg">Link to Cover:</h1>
+            <input
+              type="text"
+              id="book-cover"
+              className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
+              placeholder="Enter a link to a cover."
+              value={book.imageUrl}
+              onChange={(e) => setBook({ ...book, imageUrl: e.target.value })}
+            />
+            <h1 className="font-bold text-lg">Upload file:</h1>
+              <input
+                type="file"
+                id="file-path"
+                ref={file}
+                className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
+                placeholder="Select an epub file."
+              />
+              {error && <p className="text-red-600 font-bold">{error}</p>}
+              <div className="flex justify-center m-10">
+                <Button type="submit" onClick={onSubmit}>
+                  Add
+                </Button>
+              </div>
+          </form>
+        </div>
+    </div>
   );
 }

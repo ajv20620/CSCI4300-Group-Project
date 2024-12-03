@@ -1,13 +1,13 @@
 'use server';
 import { auth } from "../auth";
-import HomePage from "./components/HomePage";
+import Home from "./components/Home";
 
-export default async function Home() {
+export default async function HomePage() {
   const session = await auth();
 
   return (
     <div>
-      <HomePage session={session} />
+      <Home session={session} />
     </div>
   );
 }

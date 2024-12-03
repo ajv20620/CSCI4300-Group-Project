@@ -5,7 +5,6 @@ import Button from "../components/Button"
 import { useState } from "react";
 import { doCredentialLogin } from "..";
 import {useRouter} from "next/navigation";
-import { doLogout } from "..";
 
 export default function Login() {
     const router = useRouter();
