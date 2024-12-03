@@ -73,10 +73,6 @@ export default function Library() {
     router.push(`/update-book/${id}`);
   };
 
-  const onSubmit = async () => {
-    doLogout();
-  };
-
   const onRead = async (id: string) => {
     router.push(`reader/${id}`);
   };
@@ -103,10 +99,6 @@ export default function Library() {
           />
         )}
       </div>
-
-        <div className="relative z-10 m-20 flex justify-center">
-          <Button type="submit" onClick={onSubmit}>Logout</Button>
-        </div>
     </div>
   );
 }

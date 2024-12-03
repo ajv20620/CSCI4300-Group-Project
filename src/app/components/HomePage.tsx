@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Header from "./Header";
 import { useRouter } from "next/navigation";
+import { doLogout } from "..";
 
 export default function HomePage({ session }: { session: any }) {
   const router = useRouter();
@@ -12,6 +13,12 @@ export default function HomePage({ session }: { session: any }) {
       label: `Hello ${session?.user?.username || "User"}! Click here to go to your library.`,
       onClick: () => router.push("/library"),
     },
+    {
+      label: 'Logout',
+      onClick: () => {
+        doLogout();
+      }
+    }
   ];
 
   const loggedOutHeaderButtons = [
