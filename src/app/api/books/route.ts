@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({message: "Book added successfully"}, {status: 201})
   } catch (err: any) {
     console.log(`Error: ${err.message}`);
-    return NextResponse.json({status: "fail", error: err})
+    return NextResponse.json({status: "fail", error: err}, {status: 409})
   }
 }
 

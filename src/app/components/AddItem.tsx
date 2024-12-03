@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { doLogout } from "..";
 import { useRef } from "react";
-import { useSession } from "next-auth/react"
 
 export default function AddItem({ session }: { session: any }) {
     const [book, setBook] = useState({
@@ -63,7 +62,8 @@ export default function AddItem({ session }: { session: any }) {
 
           router.push('/library');
         } catch (error) {
-          console.error('Error in CreateItem', error);
+          console.log('Error in CreateItem', error);
+          setError("Internal Server Error: could not upload file.")
         }
     };
 

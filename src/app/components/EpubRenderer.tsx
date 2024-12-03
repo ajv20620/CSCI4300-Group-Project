@@ -9,35 +9,40 @@ const EpubRenderer: React.FC<EpubRendererProps> = ({ epubPath }) => {
   const viewerRef = useRef<HTMLDivElement | null>(null);
   const renditionRef = useRef<any>(null);
   const [currentLocation, setCurrentLocation] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadEpub = async () => {
+    if (!viewerRef.current) {
+      console.error("Viewer ref is not attached to a DOM element.");
+      return;
+    }
+
+    try {
+      //console.log()
+      const checkResponse = await fetch(epubPath);
+      if (!checkResponse.ok) {
+        throw new Error("Invalid file path.")
+      }
+      const book = ePub(epubPath);
+      const rendition = book.renderTo(viewerRef.current, {
+        width: "100%",
+        height: "100%",
+      });
+
+      await rendition.display();
+
+      rendition.on("relocated", (location: any) => {
+        setCurrentLocation(location.start.href);
+      });
+
+      renditionRef.current = rendition;
+    } catch (err) {
+      console.log("Failed to load EPUB: ", err);
+      setError("Failed to load file, try reuploading it.");
+    }
+  };
 
   useEffect(() => {
-    const loadEpub = async () => {
-      if (!viewerRef.current) {
-        console.error("Viewer ref is not attached to a DOM element.");
-        return;
-      }
-
-      try {
-        const book = ePub(epubPath);
-        console.log("Book spine:", book.spine);
-        const rendition = book.renderTo(viewerRef.current, {
-          width: "100%",
-          height: "100%",
-        });
-
-        await rendition.display();
-
-        rendition.on("relocated", (location: any) => {
-          setCurrentLocation(location.start.href);
-        });
-
-        // Save rendition reference for navigation
-        renditionRef.current = rendition;
-      } catch (err) {
-        console.error("Failed to load EPUB:", err);
-      }
-    };
-
     loadEpub();
 
     return () => {
@@ -50,17 +55,13 @@ const EpubRenderer: React.FC<EpubRendererProps> = ({ epubPath }) => {
 
   const handleNext = () => {
     if (renditionRef.current) {
-      renditionRef.current.next().catch((err: any) => {
-        console.error("Failed to navigate to the next page:", err);
-      });
+      renditionRef.current.next();
     }
   };
   
   const handlePrev = () => {
     if (renditionRef.current) {
-      renditionRef.current.prev().catch((err: any) => {
-        console.error("Failed to navigate to the previous page:", err);
-      });
+      renditionRef.current.prev();
     }
   };
   
@@ -75,22 +76,25 @@ const EpubRenderer: React.FC<EpubRendererProps> = ({ epubPath }) => {
       <div className="mt-4 flex justify-center space-x-4">
         <button
           onClick={handlePrev}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-        >
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
           Previous
         </button>
         <button
           onClick={handleNext}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-        >
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
           Next
         </button>
       </div>
-      <p className="mt-4 text-center text-sm text-gray-600">
-        {currentLocation
-          ? `Current Location: ${currentLocation}`
-          : "Loading..."}
-      </p>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          {currentLocation
+            ? `Current Location: ${currentLocation}`
+            : "Loading..."}
+        </p>
+        {error ?? 
+        <div className="text-red-500 text-center">
+          <p>{error}</p>
+        </div>}
+          
     </div>
   );
 };

@@ -57,8 +57,6 @@ export default function updatePage() {
         }
       }, [id]);
 
-    
-
       const onSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -66,38 +64,36 @@ export default function updatePage() {
           const selectedFile = file.current?.files?.[0];
           console.log("file: " + file);
           if (!book.title || !book.imageUrl || !selectedFile) {
-          setError("Cannot add book. Please try again");
-          return;
-        }
+            setError("Cannot add book. Please try again");
+            return;
+          }
 
-        const bookForm = new FormData();
-        bookForm.append("title", book.title);
-        bookForm.append("imageUrl", book.imageUrl);
-        bookForm.append("file", selectedFile);
+          const bookForm = new FormData();
+          bookForm.append("title", book.title);
+          bookForm.append("imageUrl", book.imageUrl);
+          bookForm.append("file", selectedFile);
 
 
           const response = await fetch(`/api/books/${id}`, {
-              method: 'PUT',
-              body: bookForm,
-            });
+            method: 'PUT',
+            body: bookForm,
+          });
   
-            if (!response.ok) {
-              throw new Error('Failed to update book data');
-            }
-  
-            //clear input
-            setBook({
-              title: '',
-              imageUrl: '',
-              filePath: '',
-            });
-  
-            router.push('/library');
-          } catch (error) {
-            console.error('Error updating book', error);
+          if (!response.ok) {
+            throw new Error('Failed to update book data');
           }
-          
-
+  
+          //clear input
+          setBook({
+            title: '',
+            imageUrl: '',
+            filePath: '',
+          });
+  
+          router.push('/library');
+        } catch (error) {
+          console.error('Error updating book', error);
+        }
       } 
 
     return(
