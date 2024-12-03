@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 export default function HomePage({ session }: { session: any }) {
   const router = useRouter();
 
-  // Buttons for logged-in and logged-out users
   const loggedInHeaderButtons = [
     {
       label: `Hello ${session?.user?.username || "User"}! Click here to go to your library.`,
