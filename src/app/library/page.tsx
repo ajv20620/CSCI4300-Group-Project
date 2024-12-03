@@ -113,10 +113,10 @@ export default function Library() {
 
 
   return (
-    <div className="w-screen h-screen bg-yellow-500">
+    <div className="relative w-screen h-screen bg-cover bg-center" style={{ backgroundImage: 'url("/library.jpg")' }}>
+      <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
         <Header buttons={libraryHeaderButtons}></Header>
-        <div className="flex justify-center m-10">
-        {/* Conditional rendering for books */}
+        <div className="relative z-20 flex justify-center m-10">
         {books.length === 0 ? (
           <div className="text-xl font-semibold">There are no books in your library. Add one to get started!</div>
         ) : (
@@ -124,12 +124,10 @@ export default function Library() {
         )}
         </div>
 
-        <div className="m-20 flex justify-center">
+        <div className="relative z-10 m-20 flex justify-center">
           <Button type="submit" onClick={onSubmit}>Logout</Button>
         </div>
     </div>
-      
-    
   );
 };
 
