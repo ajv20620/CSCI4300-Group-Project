@@ -7,12 +7,12 @@ import { doCredentialLogin } from "..";
 import {useRouter} from "next/navigation";
 import { doLogout } from "..";
 
-
 export default function Login() {
     const router = useRouter();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const loginHeaderButtons = [
       {
@@ -35,6 +35,7 @@ export default function Login() {
       console.log("Password: " + user.password);
 
       if (!user.username || !user.password) {
+        setErrorMessage("Username and password are required")
           console.log("Username and password required.");
       } else {
         const form = new FormData();
@@ -42,16 +43,18 @@ export default function Login() {
         form.append("password", user.password);
         try {
           const response = await doCredentialLogin(form);
-  
           if (!response.error) {
             router.push("/library")
             console.log("Sign-in successful!");
-        } else {
-            console.error("Sign-in failed:", response.error);
+          } else if (response.error) {
+              console.log("Sign-in failed:");
+              setErrorMessage("Sign-in failed");
+              console.log(response.error)
+          }
+        } catch (err) {
+          console.log("An unexpected error occurred:");
+          setErrorMessage("Sign-in failed");
         }
-      } catch (err) {
-          console.error("An unexpected error occurred:", err);
-      }
       }
       
       setUsername("");
@@ -103,6 +106,8 @@ export default function Login() {
         <div className="m-20 flex justify-center">
           <Button type="submit" onClick={onSubmit}>Submit</Button>
         </div>
+        <h1 className="flex justify-center text-red-600 font-bold font-sans ">{errorMessage}</h1>
+
       </form>
      </div>
   </div>

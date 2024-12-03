@@ -11,11 +11,12 @@ export default function Signup() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const signupHeaderButtons = [
       {
-        label: "Already Logged In?",
-        onClick: () => router.push("/library"),
+        label: "Already Have an Account?",
+        onClick: () => router.push("/login"),
       },
       {
         label: "Cancel",
@@ -34,20 +35,35 @@ export default function Signup() {
 
         if (!newUser.username || !newUser.password) {
           console.log("Username and password required.");
+          setErrorMessage("Username and password required");
+  
         } else {
           try {
-            const postResponse = await fetch("http://localhost:3000/api/signup", {
-              method: "POST",
-              headers: {
+              const postResponse = await fetch("http://localhost:3000/api/signup", {
+                method: "POST",
+                headers: {
                 "Content-Type": "application/json", // Specify JSON content type
               },
               body: JSON.stringify(newUser), // Convert the object to a JSON string
             });
             if (postResponse.ok) {
               const result = await postResponse.json();
-            }
+              const newUserForm = new FormData();
+              newUserForm.append("username", newUser.username);
+              newUserForm.append("password", newUser.password);
+              const response = await doCredentialLogin(newUserForm);
+              if (!response.error) {
+                setUsername("");
+                setPassword("");
+                router.push("/library");
+              } else {
+                console.log(response + "not okay")
+              } 
+            } else if (postResponse.status == 409) {
+              setErrorMessage("Username already taken")
+            } 
           } catch (err) {
-
+            setErrorMessage("Error signing up")
           }
         }
         
@@ -97,6 +113,7 @@ export default function Signup() {
                     <div className="m-20 flex justify-center">
                       <Button type="submit" onClick={onSubmit}>Submit</Button>
                     </div>
+                    <h1 className="flex justify-center text-red-600 font-bold font-sans ">{errorMessage}</h1>
                   </form>
               </div>
             </div>
