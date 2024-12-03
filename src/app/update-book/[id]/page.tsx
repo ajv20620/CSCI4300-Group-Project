@@ -73,7 +73,7 @@ export default function updatePage() {
         const bookForm = new FormData();
         bookForm.append("title", book.title);
         bookForm.append("imageUrl", book.imageUrl);
-        bookForm.append("file", file?.current?.files?.[0]!);
+        bookForm.append("file", selectedFile);
 
 
           const response = await fetch(`/api/books/${id}`, {
