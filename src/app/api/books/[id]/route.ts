@@ -35,7 +35,8 @@ export async function PUT(request:NextRequest, {params}:RouteParams) {
 }
 
 export async function GET(request: NextRequest, {params}:RouteParams) {
-    const {id} = await params; 
+    const {id} = await params;
     await connectMongoDB();
-    const { filePath } = await Item.findById(id)
+    const book = await Item.findById(id);
+    return NextResponse.json({ book });
 }

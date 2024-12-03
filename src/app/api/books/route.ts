@@ -27,12 +27,13 @@ export async function POST(request: NextRequest) {
     const imageUrl = formData.get("imageUrl");
     const file = formData.get("file");
     const owner = formData.get("owner");
-    const filePath = "public/uploads/" + file?.current?.files?.[0].name;
+    const filePath = "/uploads/" + file.name;
     
     await uploadFile(formData);
     await connectMongoDB();
     await Item.create({title, imageUrl, filePath, owner});
     console.log(`Added: ${title} owned by ${owner} to ${filePath}`)
+    console.log(file);
     return NextResponse.json({message: "Book added successfully"}, {status: 201})
   } catch (err: any) {
     console.log(`Error: ${err.message}`);
