@@ -36,10 +36,8 @@ export default function Additem() {
         event.preventDefault();
         
         const owner = session?.user?.username;
-        if (!book.title || !book.imageUrl || !owner || !file) {
-          console.log(file);
-          console.log("User: "+owner);
-          console.log("public/uploads/" + file?.current?.files?.[0].name!)
+        const selectedFile = file?.current?.files?.[0];
+        if (!book.title || !book.imageUrl || !owner || !selectedFile) {
           setError("Cannot add book. Please try again");
           return;
         }
@@ -47,7 +45,7 @@ export default function Additem() {
         const bookForm = new FormData();
         bookForm.append("title", book.title);
         bookForm.append("imageUrl", book.imageUrl);
-        bookForm.append("file", file?.current?.files?.[0]!);
+        bookForm.append("file", selectedFile);
         bookForm.append("owner", owner);
 
         try {
