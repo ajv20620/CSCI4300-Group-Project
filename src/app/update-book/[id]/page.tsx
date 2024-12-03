@@ -2,17 +2,19 @@
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import Image from "next/image"
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import {useRouter, useParams} from "next/navigation";
 import { doLogout } from "../../";
 
 
-
 export default function updatePage() {
+    
     const [book, setBook] = useState({
         title:'',
         imageUrl:'',
+        filePath:'',
     });
+    const [error,setError] = useState("");
     const updateHeaderButtons = [
       {
         label: "Cancel",
@@ -22,8 +24,6 @@ export default function updatePage() {
         label: "Logout",
         onClick: () => {
           doLogout();
-          router.push("/");
-          doLogout();
         }
       },
     ];
@@ -31,6 +31,7 @@ export default function updatePage() {
       const router = useRouter();
       const params = useParams();
       const id = params?.id as string;
+      const file = useRef<HTMLInputElement>(null);
 
       useEffect(() => {
         const fetchItem = async () => {
@@ -44,10 +45,11 @@ export default function updatePage() {
            setBook({
             title: bookData.title || '',
             imageUrl: bookData.imageUrl || '',
+            filePath: bookData.filePath || '',
            });
            } catch (error) {
             console.log('Error from UpdateItemInfo');
-           }
+           } 
         };
 
         if(id) {
@@ -61,12 +63,22 @@ export default function updatePage() {
         event.preventDefault();
 
         try {
-            const response = await fetch(`/api/books/${id}`, {
+          const selectedFile = file.current?.files?.[0];
+          console.log("file: " + file);
+          if (!book.title || !book.imageUrl || !selectedFile) {
+          setError("Cannot add book. Please try again");
+          return;
+        }
+
+        const bookForm = new FormData();
+        bookForm.append("title", book.title);
+        bookForm.append("imageUrl", book.imageUrl);
+        bookForm.append("file", file?.current?.files?.[0]!);
+
+
+          const response = await fetch(`/api/books/${id}`, {
               method: 'PUT',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(book),
+              body: bookForm,
             });
   
             if (!response.ok) {
@@ -77,13 +89,15 @@ export default function updatePage() {
             setBook({
               title: '',
               imageUrl: '',
+              filePath: '',
             });
   
             router.push('/library');
           } catch (error) {
             console.error('Error updating book', error);
           }
-        
+          
+
       } 
 
     return(
@@ -127,9 +141,23 @@ export default function updatePage() {
            value={book.imageUrl}
            onChange={(e) => setBook({...book, imageUrl: e.target.value})}/>
         </div>
+
+        <div>
+          <h2 className="text-xl text-blue-500 font-bold">New File</h2>
+          <input
+            type="file"
+            id="file-path"
+            ref={file}
+            className="w-full p-2 mt-2 border text-blue-600 border-blue-300 rounded-md"
+            placeholder="Select an epub file."
+            />
+            {/**error && <p className="text-red-600 font-bold">{error}</p>*/}
+        </div>
+
         <div className="m-20 flex justify-center">
           <Button type="submit" onClick={onSubmit}>Submit</Button>
         </div>
+        <h1 className="flex justify-center text-red-600 font-bold font-sans ">{error}</h1>
       </form>
      </div>
   </div>

@@ -28,6 +28,7 @@ export default function Book({ book, onDelete, onUpdate, onRead}: BookProps) {
              />
           </button>
         </div>
+        <button onClick={() => onRead(book._id)}>
         <Image
           src={book.imageUrl}
           alt={book.title}
@@ -36,6 +37,7 @@ export default function Book({ book, onDelete, onUpdate, onRead}: BookProps) {
           priority
           className=''
         />
+        </button>
         <button className='absolute bottom-2 right-2 hover:scale-105 transition-transform' onClick={() => onDelete(book._id)}>
           <Image
             src={"/trashcanIcon.png"}
@@ -45,15 +47,6 @@ export default function Book({ book, onDelete, onUpdate, onRead}: BookProps) {
             className="cursor-pointer"
            />
         </button>
-        <button className='flex-shrink-0 hover:scale-105 transition-transform' onClick={() => onRead(book._id)}>
-            <Image
-              src={"/updateIcon.png"}
-              alt={"update book"}
-              width={25}
-              height={25}
-              className="cursor-pointer"
-             />
-          </button>
       </div>
     );
 

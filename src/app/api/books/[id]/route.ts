@@ -1,5 +1,6 @@
 import connectMongoDB from "@/libs/mongodb";
 import Item from "@/models/bookSchema";
+import {uploadFile} from "@/libs/uploadFile"
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import mongoose from "mongoose";
@@ -27,11 +28,24 @@ export async function DELETE(request: NextRequest, {params}: RouteParams) {
 }
 
 export async function PUT(request:NextRequest, {params}:RouteParams) {
-    const {id} = await params;
-    const {title: title, imageUrl: imageUrl} = await request.json();
-    await connectMongoDB();
-    await Item.findByIdAndUpdate(id, {title, imageUrl});
-    return NextResponse.json({ message: "Item updated" }, {status: 200});
+    const { id } = await params;
+    try {
+        const formData = await request.formData();
+        const title = formData.get("title");
+        const imageUrl = formData.get("imageUrl");
+        const file = formData.get("file");
+        const filePath = "/uploads/" + file.name;
+        
+        await uploadFile(formData);
+        await connectMongoDB();
+        await Item.findByIdAndUpdate(id, {title, imageUrl, filePath});
+        console.log(`Added: ${title} to ${filePath}`)
+        console.log(file);
+        return NextResponse.json({message: "Book added successfully"}, {status: 201})
+      } catch (err: any) {
+        console.log(`Error: ${err.message}`);
+        return NextResponse.json({status: "fail", error: err})
+      }
 }
 
 export async function GET(request: NextRequest, {params}:RouteParams) {
